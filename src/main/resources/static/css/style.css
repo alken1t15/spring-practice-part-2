@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+}
+
+h2 {
+    color: red;
+    font-size: 50px;
+}
+
+.main-text {
+    margin: 15px 0;
+    text-align: center;
+    color: darkolivegreen;
+}
+
+.user-info {
+    padding: 25px;
+    margin: 35px auto;
+    width: 270px;
+    color: gray;
+}
+
+.heading {
+    text-align: center;
+    font-size: 1.4rem;
+}

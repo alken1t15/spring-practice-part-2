@@ -4,6 +4,7 @@ import alken1t.runtime.kz.springpractice_9_00.pojo.Human;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,28 +19,47 @@ public class TaskService {
             new Human("Столярова Арина Ильинична", 19),
             new Human("Шевелева Варвара Степановна", 24),
             new Human("Ушакова Каролина Матвеевна", 43),
-            new Human("Борисова Виктория Тимофеевна",60),
-            new Human("Бобров Степан Артёмович",54),
-            new Human("Сергеев Илья Давидович",14),
-            new Human("Постникова Александра Егоровна",23)
+            new Human("Борисова Виктория Тимофеевна", 60),
+            new Human("Бобров Степан Артёмович", 54),
+            new Human("Сергеев Илья Давидович", 14),
+            new Human("Постникова Александра Егоровна", 23)
     };
 
-    public List<Human> getByHumansMore(int from){
-        return Arrays.stream(HUMANS)
-                .filter(human -> human.getAge()>=from).collect(Collectors.toList());
-    }
+//    public List<Human> getHumans() {
+//        return new ArrayList<>(List.of(HUMANS));
+//    }
 
-    public List<Human> getByHumansLess(int to){
-        return Arrays.stream(HUMANS)
-                .filter(human -> human.getAge()<=to).collect(Collectors.toList());
-    }
+//    public List<Human> getByHumansMore(int from){
+//        return Arrays.stream(HUMANS)
+//                .filter(human -> human.getAge()>=from).collect(Collectors.toList());
+//    }
+//
+//    public List<Human> getByHumansLess(int to){
+//        return Arrays.stream(HUMANS)
+//                .filter(human -> human.getAge()<=to).collect(Collectors.toList());
+//    }
+//
+//    public List<Human> getHumansByAge(int from, int to){
+//       return Arrays.stream(HUMANS)
+//                .filter(human -> human.getAge()>=from && human.getAge()<=to).collect(Collectors.toList());
+//    }
+//
+//    public Human[] getHUMANS() {
+//        return HUMANS;
+//    }
 
-    public List<Human> getHumansByAge(int from, int to){
-       return Arrays.stream(HUMANS)
-                .filter(human -> human.getAge()>=from && human.getAge()<=to).collect(Collectors.toList());
-    }
-
-    public Human[] getHUMANS() {
-        return HUMANS;
+    public List<Human> getHumansByAge(Integer from, Integer to) {
+        if (from == null && to == null) {
+            return Arrays.stream(HUMANS).toList();
+        } else if (from != null && to == null) {
+            return Arrays.stream(HUMANS)
+                    .filter(human -> human.getAge() >= from).collect(Collectors.toList());
+        } else if (from == null && to != null) {
+            return Arrays.stream(HUMANS)
+                    .filter(human -> human.getAge() <= to).collect(Collectors.toList());
+        } else {
+            return Arrays.stream(HUMANS)
+                    .filter(human -> human.getAge() >= from && human.getAge() <= to).collect(Collectors.toList());
+        }
     }
 }

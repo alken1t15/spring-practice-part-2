@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Добро пожаловать на главную страницу</h2>
+<h4>Чтобы получить имена всех людей возраст введите параметры</h4>
+<form method="get" action="/task_controller_pro/">
+    <p>От:</p>
+    <input type="text" name="from">
+    <p>До:</p>
+    <input type="text" name="to">
+    <button type="submit">Получить</button>
+</form>
+<div th:each="human : ${humans}">
+    <p>ФИО:</p>
+    <p th:text="${human.getName()}"></p>
+    <p>Возраст:</p>
+    <p th:text="${human.getAge()}"></p>
+</div>
+</body>
+</html>

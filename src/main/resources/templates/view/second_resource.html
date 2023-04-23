@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="user-info">
+    <h2>Информация о пользователе</h2>
+    <p>Имя: <span th:text="${human.name}"></span></p>
+    <p>Возраст: <span th:text="${human.age}"></span></p>
+</div>
+
+
+</body>
+</html>
