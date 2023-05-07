@@ -9,10 +9,11 @@
 
 <div class="user-info">
     <h2>Информация о пользователе</h2>
-    <p>Имя: <span th:text="${human.name}"></span></p>
-    <p>Возраст: <span th:text="${human.age}"></span></p>
+    <th:block th:if="${human.getAge() >= 18}">
+        <p>Имя: <span th:text="${human.name}"></span></p>
+        <p>Возраст: <span th:text="${human.age}"></span></p>
+    </th:block>
+    <p class="err-mess" th:if="${human.getAge() < 18}" >Человек не является совершеннолетним</p>
 </div>
-
-
 </body>
 </html>

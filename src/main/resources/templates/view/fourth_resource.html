@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:each="city : ${cityToCount}" style="border-bottom: 1px solid black">
+<p>Название города: <b th:text="${city.getKey()}"></b></p>
+<p>Население: <b th:text="${city.getValue()}"></b></p>
+</div>
+
+<p>Средний возраст: <b th:text="${age}"></b> </p>
+</body>
+</html>
