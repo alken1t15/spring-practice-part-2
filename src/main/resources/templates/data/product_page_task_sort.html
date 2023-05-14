@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products page</title>
+</head>
+<body>
+<form method="get"  action="/data_controller/product_resource">
+    <input type="hidden" th:value="${category}" name="category_name">
+    <button type="submit" value="asc" name="sort">Отсортировать по увеличению</button>
+    <button type="submit" value="desk" name="sort">Отсортировать по уменьшению</button>
+</form>
+<div th:each="product : ${products}">
+    <p>Категория: <b th:text="${product.getCategory().getName()}"></b></p>
+    <p>Названия: <b th:text="${product.getName()}"></b></p>
+    <p>Стоимость: <b th:text="${product.getPrice()}"></b></p>
+    <hr/>
+</div>
+</body>
+</html>

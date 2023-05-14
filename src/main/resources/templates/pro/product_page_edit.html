@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit page</title>
+</head>
+<body>
+<form th:method="PATCH" th:action="@{/controller_pro/edit_product/{id}(id=${product})}" th:object="${product}">
+    <select >
+        <option value="">Выберите категорию</option>
+        <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getName()}" ></option>
+    </select>
+    <label>
+        <input type="text" th:field="*{product.getName()}" placeholder="Введите название товара">
+    </label>
+    <label>
+        <input type="number" th:field="*{product.getPrice()}" placeholder="Введите цену товара">
+    </label>
+    <button type="submit" >Изменить</button>
+</form>
+</body>
+</html>
