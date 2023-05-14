@@ -60,7 +60,7 @@ public class ControllerPro {
     private String editProductPage(@PathVariable("id") Long id, Model model){
         Product product = productRepository.findById(id).orElseThrow();
         List<Category> categories = categoryRepository.findAll();
-        Product2 product2 = new Product2(product.getId(),product.getName(),product.getPrice());
+        Product2 product2 = new Product2(product.getId(),product.getCategory().getId(),product.getName(),product.getPrice());
         model.addAttribute("product",product2);
         model.addAttribute("categories", categories);
         return "pro/product_page_edit";
@@ -68,7 +68,19 @@ public class ControllerPro {
 
     @PatchMapping("/edit_product/{id}")
     private String editProduct(@PathVariable("id") Long id,@ModelAttribute("product") Product2 product){
+        Category category = categoryRepository.findById(product.getCategory()).orElseThrow();
+        Product product1 = productRepository.findById(id).orElseThrow();
+        product1.setName(product.getName());
+        product1.setPrice(product.getPrice());
+        product1.setCategory(category);
+        productRepository.save(product1);
+        return "redirect:/controller_pro/product";
+    }
 
+    @DeleteMapping("/delete_product/{id}")
+    private String deleteProduct(@PathVariable("id") Long id){
+        Product product = productRepository.findById(id).orElseThrow();
+        productRepository.delete(product);
         return "redirect:/controller_pro/product";
     }
 }

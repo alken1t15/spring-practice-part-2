@@ -9,9 +9,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product2 {
+    private Long id;
+
     private Long category;
 
     private String name;
 
     private Integer price;
+
+    public Product2(Long category, String name, Integer price) {
+        this.category = category;
+        this.name = name;
+        this.price = price;
+    }
 }
