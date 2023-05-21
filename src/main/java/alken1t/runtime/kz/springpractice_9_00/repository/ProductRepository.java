@@ -28,6 +28,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByOrderByPriceAsc();
     List<Product> findAllByOrderByPriceDesc();
 
+    Product findByName(String name);
+
     List<Product> findAllByCategoryName(String categoryName, Sort sort);
 
     List<Product> findAllByPriceAfter(Integer price);

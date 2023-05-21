@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products page</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/controller_pro/category_new}">
+    <label>
+        <input type="text" name="category" placeholder="Введите название категории">
+    </label>
+    <button type="submit" >Создать новый товар</button>
+</form>
+</body>
+</html>

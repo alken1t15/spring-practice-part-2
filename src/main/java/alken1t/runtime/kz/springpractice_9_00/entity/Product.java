@@ -24,6 +24,9 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Value> values;
 
+    @OneToMany(mappedBy = "product")
+    private List<Reviews> reviews;
+
     private String name;
 
     private Integer price;

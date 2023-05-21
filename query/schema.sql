@@ -35,6 +35,54 @@ create table values
     foreign key (option_id) references options (id)
 );
 
+create table role
+(
+    id             serial8,
+    service_name   varchar,
+    displayed_name varchar
+);
+
+create table users
+(
+    id                serial8 primary key,
+    role              varchar,
+    login             varchar,
+    password          varchar,
+    first_name        varchar,
+    last_name         varchar,
+    registration_date timestamp
+);
+
+create table orders
+(
+    id               serial8 PRIMARY KEY ,
+    user_id          int8 references users (id),
+    status           varchar,
+    delivery_address varchar,
+    order_date       timestamp
+);
+
+CREATE TABLE order_items
+(
+    id         SERIAL PRIMARY KEY,
+    order_id   INTEGER REFERENCES orders (id),
+    product_id INTEGER REFERENCES products (id),
+    quantity   INTEGER NOT NULL
+);
+
+create table reviews
+(
+    id               serial8 primary key,
+    user_id          int8 REFERENCES users (id),
+    product_id       int8 REFERENCES products (id),
+    published        boolean,
+    rating           int4,
+    comment          varchar,
+    publication_date timestamp
+);
+
+
+
 insert into categories (name)
 values ('Процессоры'),
        ('Мониторы');
