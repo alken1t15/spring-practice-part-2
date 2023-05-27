@@ -16,17 +16,20 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Enumerated
-//    private String role;
+    @Enumerated
+    private Role role;
 
     private String login;
 
     private String password;
 
+    @Column(name = "first_name")
     private String firstName;
 
+    @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "registration_date")
     private LocalDateTime registrationDate;
 
     @OneToMany(mappedBy = "user")

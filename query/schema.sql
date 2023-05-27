@@ -8,44 +8,37 @@ create table categories
 create table products
 (
     id          serial8,
-    category_id int8    not null,
+    category_id int8 ,
     name        varchar not null,
     price       int4    not null,
     primary key (id),
-    foreign key (category_id) references categories (id)
+    foreign key (category_id) references categories (id) on delete set null
 );
 
 create table options
 (
     id          serial8,
-    category_id int8 not null,
+    category_id int8,
     name        varchar,
     primary key (id),
-    foreign key (category_id) references categories (id)
+    foreign key (category_id) references categories (id) on delete set null
 );
 
 create table values
 (
     id         serial8,
-    product_id int8 not null,
-    option_id  int8 not null,
-    name       varchar,
+    product_id int8,
+    option_id  int8,
+    value       varchar,
     primary key (id),
-    foreign key (product_id) references products (id),
-    foreign key (option_id) references options (id)
-);
-
-create table role
-(
-    id             serial8,
-    service_name   varchar,
-    displayed_name varchar
+    foreign key (product_id) references products (id) on delete set null,
+    foreign key (option_id) references options (id) on delete set null
 );
 
 create table users
 (
     id                serial8 primary key,
-    role              varchar,
+    role              int2,
     login             varchar,
     password          varchar,
     first_name        varchar,
@@ -56,8 +49,8 @@ create table users
 create table orders
 (
     id               serial8 PRIMARY KEY ,
-    user_id          int8 references users (id),
-    status           varchar,
+    user_id          int8 references users (id) on delete set null,
+    status           int2,
     delivery_address varchar,
     order_date       timestamp
 );
@@ -65,16 +58,16 @@ create table orders
 CREATE TABLE order_items
 (
     id         SERIAL PRIMARY KEY,
-    order_id   INTEGER REFERENCES orders (id),
-    product_id INTEGER REFERENCES products (id),
+    order_id   INTEGER REFERENCES orders (id) on delete set null,
+    product_id INTEGER REFERENCES products (id) on delete set null,
     quantity   INTEGER NOT NULL
 );
 
 create table reviews
 (
     id               serial8 primary key,
-    user_id          int8 REFERENCES users (id),
-    product_id       int8 REFERENCES products (id),
+    user_id          int8 REFERENCES users (id) on delete set null ,
+    product_id       int8 REFERENCES products (id) on delete set null,
     published        boolean,
     rating           int4,
     comment          varchar,
@@ -102,7 +95,7 @@ values (1, 'Производитель'),
        (2, 'Матрица'),
        (2, 'Разрешение');
 
-insert into values (option_id, product_id, name)
+insert into values (option_id, product_id, value)
 values (1, 1, 'Intel'),
        (1, 2, 'AMD'),
        (2, 1, '8'),

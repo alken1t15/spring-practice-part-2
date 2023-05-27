@@ -15,10 +15,15 @@
 <a href="/controller_pro/choice_category_new">Создать новый товар</a>
 <a href="/controller_pro/category_new">Создать новую категорию</a>
 <a href="/controller_pro/option_new">Создать новую характеристику для товара</a>
-<a href="/controller_pro/values_new">Заполнить характеристику для товара</a>
 <form th:method="GET" th:action="@{/controller_pro/product}">
-<button type="submit" name="page" value="1" >Страница 1</button>
-<button type="submit" name="page" value="2" >Страница 2</button>
+<!--<button type="submit" name="page" value="1" >Страница 1</button>-->
+<!--<button type="submit" name="page" value="2" >Страница 2</button>-->
+    <a th:if="1 != ${currentPage}" th:href="@{/controller_pro/product(page=${currentPage}-1)}"><-</a>
+    <div th:each="i : ${#numbers.sequence(1, totalPages)}" th:with="incremented=${i + 1}">
+<!--        <button type="submit" name="page" th:value="${i}" th:text="Страница"> <span th:text="${i}"></span> </button>-->
+        <a th:href="@{/controller_pro/product(page=${i})}" th:text="${i}" th:style="${'background: ' + (currentPage == i ? 'crimson' : 'unset')}"></a>
+    </div >
+    <a th:if="${totalPages} != ${currentPage}" th:href="@{/controller_pro/product(page=${currentPage}+1)}">-></a>
 <button type="submit">Все товары</button>
 </form>
 </body>
