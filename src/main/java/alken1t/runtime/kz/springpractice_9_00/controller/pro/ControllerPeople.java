@@ -4,6 +4,7 @@ package alken1t.runtime.kz.springpractice_9_00.controller.pro;
 import alken1t.runtime.kz.springpractice_9_00.entity.Role;
 import alken1t.runtime.kz.springpractice_9_00.entity.Users;
 import alken1t.runtime.kz.springpractice_9_00.repository.UsersRepository;
+import alken1t.runtime.kz.springpractice_9_00.service.pro.ServiceUser;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,21 +20,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ControllerPeople {
 
-    private UsersRepository usersRepository;
-
+    private final ServiceUser serviceUser;
 
 
     @GetMapping()
-    public String createPeoplePage(Model model){
+    public String createPeoplePage(Model model) {
         model.addAttribute("user", new Users());
         return "people/create_people_page";
     }
 
     @PostMapping()
-    public String createPeople(@ModelAttribute("user") Users users){
-        users.setRole(Role.USER);
-        users.setRegistrationDate(LocalDateTime.now());
-        usersRepository.save(users);
+    public String createPeople(@ModelAttribute("user") Users users) {
+        serviceUser.save(users);
         return "redirect:/people";
     }
 
