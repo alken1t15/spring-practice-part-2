@@ -3,6 +3,7 @@ package alken1t.runtime.kz.springpractice_9_00.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,6 +31,8 @@ public class Users {
     private String lastName;
 
     @Column(name = "registration_date")
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime registrationDate;
 
     @OneToMany(mappedBy = "user")

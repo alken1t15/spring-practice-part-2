@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products page</title>
+</head>
+<body>
+<p th:if="${rating}!=0.0"><span>Средняя оценка товара:</span> <span th:text="${rating}"></span></p>
+<p th:if="${rating}==0.0"><span>У товара нет среднего рейтинга </span></p>
+  <p>Категория: <b th:text="${product.getCategory().getName()}"></b></p>
+  <p>Названия: <b th:text="${product.getName()}"></b></p>
+  <p>Стоимость: <b th:text="${product.getPrice()}"></b></p>
+  <div th:each="value : ${product.getValues()}">
+    <p><span th:text="${value.option.name}"></span>: <b th:text="${value.getValue()}"></b></p>
+  </div>
+  <hr/>
+  <a th:href="@{/product/edit_product/{id}(id=${product.getId()})}">Изменить товар</a>
+<hr/>
+<div th:if="">
+
+</div>
+</body>
+</html>

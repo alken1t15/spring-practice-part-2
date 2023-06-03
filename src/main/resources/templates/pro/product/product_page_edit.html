@@ -5,7 +5,7 @@
     <title>Edit page</title>
 </head>
 <body>
-<form th:method="PATCH" th:action="@{/controller_pro/edit_product/{id}(id=${product.getId()})}" th:object="${product}">
+<form th:method="PATCH" th:action="@{/product/edit_product/{id}(id=${product.getId()})}" th:object="${product}">
 <!--    <select th:field="*{product.category}">-->
 <!--        <option value="">Выберите категорию</option>-->
 <!--        <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getName()}" ></option>-->
@@ -22,7 +22,7 @@
     </div>
     <button type="submit">Изменить</button>
 </form>
-<form th:method="DELETE" th:action="@{/controller_pro/delete_product/{id}(id=${product.getId()})}">
+<form th:method="DELETE" th:action="@{/product/delete_product/{id}(id=${product.getId()})}">
     <input type="submit" value="Удалить товар"/>
 </form>
 </body>

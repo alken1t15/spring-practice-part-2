@@ -14,7 +14,10 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(authorization -> {
             authorization.requestMatchers("/security_controller/first_resource")
                     .authenticated();
+            authorization.requestMatchers("/security_controller/current_user")
+                    .authenticated();
 //            authorization.requestMatchers("/security_controller/second_resource").permitAll();
+            authorization.requestMatchers("/security_controller/third_resource").hasRole("admin");
             authorization.anyRequest().permitAll();
         });
         httpSecurity.formLogin();
