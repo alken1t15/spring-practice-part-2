@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ReviewsService {
@@ -22,15 +24,15 @@ public class ReviewsService {
         return (double) rating /count;
     }
 
-    public Reviews findByProduct(Product product){
-        return reviewsRepository.findByProduct(product);
-    }
-
     public Reviews findByProductAndUser(Product product, Users user){
         return reviewsRepository.findByProductAndUser(product,user);
     }
 
     public void save(Reviews reviews){
         reviewsRepository.save(reviews);
+    }
+
+    public List<Reviews> findAllByProduct(Product product) {
+        return reviewsRepository.findAllByProduct(product);
     }
 }

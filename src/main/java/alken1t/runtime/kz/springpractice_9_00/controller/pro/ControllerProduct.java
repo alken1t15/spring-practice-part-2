@@ -2,6 +2,7 @@ package alken1t.runtime.kz.springpractice_9_00.controller.pro;
 
 import alken1t.runtime.kz.springpractice_9_00.entity.*;
 import alken1t.runtime.kz.springpractice_9_00.pojo.Product2;
+import alken1t.runtime.kz.springpractice_9_00.service.UserService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -22,6 +24,7 @@ public class ControllerProduct {
     private final OptionService optionService;
     private final ValueService valueService;
     private final ReviewsService reviewsService;
+    private final UserService userService;
 
     @GetMapping()
     public String mainPage(@RequestParam(name = "page", required = false) Integer page, Model model) {
@@ -35,13 +38,36 @@ public class ControllerProduct {
 
     @GetMapping("/{id}")
     public String pageProduct(@PathVariable("id") long id,Model model){
+        Users currentUser = userService.getCurrentUser();
+        Users users = userService.findByLogin(currentUser.getLogin());
         Product product = productService.findById(id).orElseThrow();
         double rating = reviewsService.getRating(product.getId());
-        Reviews reviews = reviewsService.findByProduct(product);
+        List<Reviews> reviews = reviewsService.findAllByProduct(product);
+        Reviews reviewsPeople = reviewsService.findByProductAndUser(product,users);
+        model.addAttribute("users",users);
         model.addAttribute("product",product);
         model.addAttribute("rating",rating);
         model.addAttribute("reviews",reviews);
+        model.addAttribute("reviewsPeople",reviewsPeople);
         return "pro/product/product_page_id";
+    }
+
+    @PostMapping("/comment")
+    public String createComment(@RequestParam(name = "product") Long idProduct,
+                              @RequestParam(name = "user") Long idUser,
+                              @RequestParam(name = "rating")Integer rating,
+                              @RequestParam(name = "comment") String comment){
+        Product product = productService.findById(idProduct).orElseThrow();
+        Users users = userService.findById(idUser);
+        Reviews reviews = new Reviews();
+        reviews.setProduct(product);
+        reviews.setUser(users);
+        reviews.setRating(rating);
+        reviews.setComment(comment);
+        reviews.setPublicationDate(LocalDateTime.now());
+        reviews.setPublished(false);
+        reviewsService.save(reviews);
+        return "redirect:/product?page=1";
     }
 
 

@@ -16,8 +16,19 @@
   <hr/>
   <a th:href="@{/product/edit_product/{id}(id=${product.getId()})}">Изменить товар</a>
 <hr/>
-<div th:if="">
-
+<form th:if="${reviewsPeople} == null" th:method="POST" th:action="@{/product/comment}">
+    <input type="hidden" name="product" th:value="${product.id}">
+    <input type="hidden" name="user" th:value="${users.id}">
+    <label for="rating">Оставить рейтинг</label>
+    <input id="rating" type="text" name="rating">
+    <label for="review">Оставить отзыва</label>
+    <textarea name="comment" id="review"></textarea>
+    <button type="submit">Отправить</button>
+</form>
+<p th:if="${reviews.isEmpty()}">Пока нет отзывов на этот товар</p>
+<div th:if="${!reviews.isEmpty()}" th:each="review : ${reviews}">
+    <p th:if="${review.getPublished()}"><span th:text="${review.getUser().getFirstName()}"></span> <span th:text="${review.getUser().getLastName()}"></span> дата публикации: <span th:text="${review.getPublicationDate()}"></span></p>
+    <p><span>Комментарий</span><span th:text="${review.getComment()}"></span></p>
 </div>
 </body>
 </html>

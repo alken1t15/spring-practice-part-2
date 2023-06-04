@@ -17,4 +17,12 @@ public class UserService {
         Authentication authentication = context.getAuthentication();
         return usersRepository.findByLogin(authentication.getName()).orElse(null);
     }
+
+    public Users findByLogin(String login){
+        return usersRepository.findByLogin(login).orElseThrow();
+    }
+
+    public Users findById(Long id) {
+      return usersRepository.findById(id).orElseThrow();
+    }
 }
