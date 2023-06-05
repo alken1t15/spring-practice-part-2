@@ -27,7 +27,7 @@
 </form>
 <p th:if="${reviews.isEmpty()}">Пока нет отзывов на этот товар</p>
 <div th:if="${!reviews.isEmpty()}" th:each="review : ${reviews}">
-    <p th:if="${review.getPublished()}"><span th:text="${review.getUser().getFirstName()}"></span> <span th:text="${review.getUser().getLastName()}"></span> дата публикации: <span th:text="${review.getPublicationDate()}"></span></p>
+    <p th:if="${review.getPublished()}"><span th:text="${review.getUser().getFirstName()}"></span> <span th:text="${review.getUser().getLastName()}"></span> дата публикации: <span th:text="${#temporals.format(review.getPublicationDate(),'dd.MM.yyyy HH:mm')}"></span></p>
     <p><span>Комментарий</span><span th:text="${review.getComment()}"></span></p>
 </div>
 </body>

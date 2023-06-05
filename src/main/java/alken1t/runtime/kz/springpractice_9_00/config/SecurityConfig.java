@@ -17,6 +17,7 @@ public class SecurityConfig {
             authorization.requestMatchers("/security_controller/current_user")
                     .authenticated();
             authorization.requestMatchers("/product/{id}").authenticated();
+            authorization.requestMatchers("/cart").authenticated();
 //            authorization.requestMatchers("/security_controller/second_resource").permitAll();
             authorization.requestMatchers("/security_controller/third_resource").hasRole("admin");
             authorization.anyRequest().permitAll();

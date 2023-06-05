@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+  <link rel="stylesheet" th:href="@{/css/cart_page.css}">
+</head>
+<body>
+<div class="cart">
+  <h1 class="cart-heading">Корзина</h1>
+  <ul class="cart-items">
+    <li th:each="cart : ${carts}" class="cart-item">
+      <span class="item-name" th:text="${cart.getProduct().getName()}"></span>
+      <div class="item-quantity">
+        <button class="quantity-btn minus">-</button>
+        <span class="quantity" th:text="${cart.getCount()}"></span>
+        <button class="quantity-btn plus">+</button>
+      </div>
+      <button class="delete-btn">Удалить</button>
+    </li>
+  </ul>
+  <div class="cart-total">
+    <span class="total-label">Итого:</span>
+    <span class="total-value">$100</span>
+  </div>
+  <button class="delete-all-btn">Удалить все</button>
+  <button class="checkout-btn">Оформить заказ</button>
+</div>
+</body>
+</html>

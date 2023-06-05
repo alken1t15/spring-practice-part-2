@@ -30,6 +30,9 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<OrderItems> orderItems;
 
+    @OneToMany(mappedBy = "product")
+    private List<Cart> cart;
+
     private String name;
 
     private Integer price;

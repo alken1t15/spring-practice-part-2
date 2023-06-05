@@ -35,6 +35,9 @@ public class Users {
 //    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime registrationDate;
 
+    @OneToMany(mappedBy = "users")
+    private List<Cart> carts;
+
     @OneToMany(mappedBy = "user")
     private List<Reviews> reviews;
 

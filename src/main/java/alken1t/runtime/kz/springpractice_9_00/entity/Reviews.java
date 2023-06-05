@@ -31,6 +31,5 @@ public class Reviews {
     private String comment;
 
     @Column(name = "publication_date")
-//    @DateTimeFormat(pattern = "")
     private LocalDateTime publicationDate;
 }

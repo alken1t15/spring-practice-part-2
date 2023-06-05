@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
+
 @Controller
 @AllArgsConstructor
 public class MainController {
@@ -23,11 +25,16 @@ public class MainController {
 
     @PostMapping("/registration")
     public String registrationAction(@RequestParam(name = "login") String login,
+                                     @RequestParam(name = "first_name") String firstName,
+                                     @RequestParam(name = "second_name") String secondName,
                                      @RequestParam(name = "password") String password){
         Users users = new Users();
+        users.setFirstName(firstName);
+        users.setLastName(secondName);
         users.setRole(Role.USER);
         users.setLogin((((login))));
         users.setPassword(passwordEncoder.encode(password));
+        users.setRegistrationDate(LocalDateTime.now());
         usersRepository.save(users);
         return "redirect:/login";
     }

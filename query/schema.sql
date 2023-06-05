@@ -1,3 +1,14 @@
+create table users
+(
+    id                serial8 primary key,
+    role              int2,
+    login             varchar,
+    password          varchar,
+    first_name        varchar,
+    last_name         varchar,
+    registration_date timestamp
+);
+
 create table categories
 (
     id   serial8,
@@ -13,6 +24,13 @@ create table products
     price       int4    not null,
     primary key (id),
     foreign key (category_id) references categories (id) on delete set null
+);
+
+create  table cart(
+                      id serial4 primary key ,
+                      id_users int4 references users(id),
+                      id_product int4 references products(id),
+                      count int
 );
 
 create table options
@@ -33,17 +51,6 @@ create table values
     primary key (id),
     foreign key (product_id) references products (id) on delete set null,
     foreign key (option_id) references options (id) on delete set null
-);
-
-create table users
-(
-    id                serial8 primary key,
-    role              int2,
-    login             varchar,
-    password          varchar,
-    first_name        varchar,
-    last_name         varchar,
-    registration_date timestamp
 );
 
 create table orders
@@ -73,7 +80,6 @@ create table reviews
     comment          varchar,
     publication_date timestamp
 );
-
 
 
 insert into categories (name)

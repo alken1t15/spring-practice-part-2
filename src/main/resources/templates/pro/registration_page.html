@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/static/css/registration_page.css">
+    <link rel="stylesheet" th:href="@{/css/registration_page.css}">
 </head>
 <body>
 <div>
     <form th:method="POST" th:action="@{/registration}">
-        <h4 class="text-warning text-center pt-5">Registration Page</h4>
+        <h4 class="text-warning text-center pt-5">Страница регистрации</h4>
         <label>
             <input
                     type="text"
                     class="input"
                     name="login"
-                    placeholder="Login"/>
+                    placeholder="Введите логин"/>
             <div class="line-box">
                 <div class="line">
                 </div>
@@ -24,8 +24,18 @@
             <input
                     type="text"
                     class="input"
-                    name="username"
-                    placeholder="USERNAME"/>
+                    name="first_name"
+                    placeholder="Введите ваше имя"/>
+            <div class="line-box">
+                <div class="line"></div>
+            </div>
+        </label>
+        <label>
+            <input
+                    type="text"
+                    class="input"
+                    name="second_name"
+                    placeholder="Введите вашу фамилию"/>
             <div class="line-box">
                 <div class="line"></div>
             </div>
@@ -35,22 +45,12 @@
                     type="password"
                     class="input"
                     name="password"
-                    placeholder="PASSWORD"/>
+                    placeholder="Введите ваш пароль"/>
             <div class="line-box">
                 <div class="line"></div>
             </div>
         </label>
-        <label>
-            <input
-                    type="password"
-                    class="input"
-                    name="confirm"
-                    placeholder="CONFIRM PASSWORD"/>
-            <div class="line-box">
-                <div class="line"></div>
-            </div>
-        </label>
-        <button type="submit">submit</button>
+        <button type="submit">Зарегистрироваться</button>
     </form>
 </div>
 </body>
