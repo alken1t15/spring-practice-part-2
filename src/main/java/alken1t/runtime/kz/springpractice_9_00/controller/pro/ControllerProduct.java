@@ -25,6 +25,7 @@ public class ControllerProduct {
     private final ValueService valueService;
     private final ReviewsService reviewsService;
     private final UserService userService;
+    private final CartService cartService;
 
     @GetMapping()
     public String mainPage(@RequestParam(name = "page", required = false) Integer page, Model model) {
@@ -50,6 +51,21 @@ public class ControllerProduct {
         model.addAttribute("reviews",reviews);
         model.addAttribute("reviewsPeople",reviewsPeople);
         return "pro/product/product_page_id";
+    }
+    //Todo 3 слова и в ней 21 буквы
+    //TODO ФРАЗА иддрйгeкпилиооой
+    //TODO Сделать проверку что нету ли такого товара в корзине
+    @PostMapping("/addCart")
+    public String addCart(@RequestParam(name = "id") Long id){
+        Users currentUser = userService.getCurrentUser();
+        Users users = userService.findByLogin(currentUser.getLogin());
+        Product product = productService.findById(id).orElseThrow();
+        Cart cart = new Cart();
+        cart.setCount(1);
+        cart.setUsers(users);
+        cart.setProduct(product);
+        cartService.save(cart);
+        return "redirect:/product?page=1";
     }
 
     @PostMapping("/comment")

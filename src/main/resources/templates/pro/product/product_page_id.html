@@ -15,6 +15,10 @@
   </div>
   <hr/>
   <a th:href="@{/product/edit_product/{id}(id=${product.getId()})}">Изменить товар</a>
+<form th:method="POST" th:action="@{/product/addCart}">
+    <input type="hidden" th:value="${product.getId()}" name="id">
+    <button type="submit">Добавить в корзину</button>
+</form>
 <hr/>
 <form th:if="${reviewsPeople} == null" th:method="POST" th:action="@{/product/comment}">
     <input type="hidden" name="product" th:value="${product.id}">

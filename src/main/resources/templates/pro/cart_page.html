@@ -12,18 +12,34 @@
     <li th:each="cart : ${carts}" class="cart-item">
       <span class="item-name" th:text="${cart.getProduct().getName()}"></span>
       <div class="item-quantity">
-        <button class="quantity-btn minus">-</button>
+        <form th:action="@{/cart/add}" th:method="POST">
+          <input type="hidden" value="true" name="minus">
+          <input type="hidden" th:value="${cart.getProduct().getName()}" name="product">
+          <button type="submit" class="quantity-btn minus">-</button>
+        </form>
         <span class="quantity" th:text="${cart.getCount()}"></span>
-        <button class="quantity-btn plus">+</button>
+        <form th:action="@{/cart/add}" th:method="POST">
+          <input type="hidden" value="true" name="plus">
+          <input type="hidden" th:value="${cart.getProduct().getName()}" name="product">
+          <button type="submit" class="quantity-btn plus">+</button>
+        </form>
       </div>
-      <button class="delete-btn">Удалить</button>
+      <form th:action="@{/cart/add}" th:method="POST">
+        <input type="hidden" value="true" name="delete">
+        <input type="hidden" th:value="${cart.getProduct().getName()}" name="product">
+        <button type="submit" class="delete-btn">Удалить</button>
+      </form>
     </li>
   </ul>
-  <div class="cart-total">
+  <p th:if="${carts.isEmpty()}">Корзина пустая</p>
+  <div th:if="${!carts.isEmpty()}" class="cart-total">
     <span class="total-label">Итого:</span>
-    <span class="total-value">$100</span>
+    <span class="total-value" th:text="${totalPrice}"></span>
   </div>
-  <button class="delete-all-btn">Удалить все</button>
+  <form th:if="${!carts.isEmpty()}" th:action="@{/cart/clear}" th:method="DELETE">
+    <input type="hidden" value="true" name="delete">
+    <button type="submit" class="delete-all-btn">Удалить все</button>
+  </form>
   <button class="checkout-btn">Оформить заказ</button>
 </div>
 </body>
