@@ -18,6 +18,11 @@ public class SecurityConfig {
                     .authenticated();
             authorization.requestMatchers("/product/{id}").authenticated();
             authorization.requestMatchers("/cart").authenticated();
+            authorization.requestMatchers("/orders").authenticated();
+            authorization.requestMatchers("/admin/{id}").hasRole("admin");
+            authorization.requestMatchers("/admin/comment").hasRole("admin");
+            authorization.requestMatchers("/admin").hasRole("admin");
+            authorization.requestMatchers("/admin/order").hasRole("admin");
 //            authorization.requestMatchers("/security_controller/second_resource").permitAll();
             authorization.requestMatchers("/security_controller/third_resource").hasRole("admin");
             authorization.anyRequest().permitAll();

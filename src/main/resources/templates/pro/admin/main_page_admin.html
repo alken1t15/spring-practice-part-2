@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница всех пользователей</title>
+    <link rel="stylesheet" th:href="@{/css/main_page_admin.css}">
+</head>
+<body>
+<div th:each="user : ${usersList}" class="user">
+    <p>Человек:</p>
+    <p>Имя: <b th:text="${user.getFirstName()}"></b></p>
+    <p>Фамилия: <b th:text="${user.getLastName()}"></b></p>
+    <a th:href="@{/admin/{id}(id=${user.getId()})}">Посмотреть детали</a>
+</div>
+</body>
+</html>

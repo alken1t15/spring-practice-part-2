@@ -18,11 +18,16 @@ public class Orders {
     @JoinColumn(name = "user_id")
     private Users user;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private Status status;
 
-    @OneToMany(mappedBy = "orders")
-    private List<OrderItems> orderItems;
+    @ManyToMany
+    @JoinTable(
+            name = "order_items",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Product> products;
 
     @Column(name = "delivery_address")
     private String deliveryAddress;

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница пользователя</title>
+    <link rel="stylesheet" th:href="@{/css/user_page_admin.css}">
+</head>
+<body>
+<h1>Информация о пользователе</h1>
+<div class="user-info">
+    <p>Человек:</p>
+    <p>Имя: <b th:text="${user.getFirstName()}"></b></p>
+    <p>Фамилия: <b th:text="${user.getLastName()}"></b></p>
+    <p>Дата регистрации аккаунта: <b th:text="${user.getRegistrationDate()}"></b></p>
+</div>
+
+<div th:if="${!reviews.isEmpty()}" class="reviews-section">
+    <p>Пользователь хочет опубликовать отзыв к товарам:</p>
+    <div th:if="${reviews!=null}" th:each="review : ${reviews}" class="review">
+        <p>Рейтинг: <b th:text="${review.rating}"></b></p>
+        <p>Комментарий: <b th:text="${review.getComment()}"></b></p>
+        <p>Дата публикации: <b th:text="${#temporals.format(review.getPublicationDate(),'dd.MM.yyyy HH:mm')}"></b></p>
+        <form th:method="POST" th:action="@{/admin/comment}">
+            <input type="hidden" th:value="${review.id}" name="id">
+            <input type="hidden" name="published" value="true">
+            <button type="submit">Опубликовать</button>
+        </form>
+    </div>
+</div>
+
+<p th:if="${!user.getOrders().isEmpty()}">Заказы пользователя:</p>
+<div th:each="order : ${user.getOrders()}" class="order">
+    <p>Статус заказа: <b th:text="${order.getStatus()}"></b></p>
+    <form th:method="POST" th:action="@{/admin/order}">
+        <input type="hidden" name="id" th:value="${order.getId()}">
+        <label for="status">Изменить статус</label>
+        <select id="status" name="status">
+            <option th:value="READY">Готов</option>
+            <option th:value="WAIT">Ждет</option>
+            <option th:value="ABSENT">Отсутствует</option>
+        </select>
+        <button type="submit">Изменить</button>
+    </form>
+    <p>Адрес доставки: <b th:text="${order.getDeliveryAddress()}"></b></p>
+    <p>Дата создания заказа: <b th:text="${#temporals.format(order.getOrderDate(),'dd.MM.yyyy HH:mm')}"></b></p>
+    <p>Товары, входящие в заказ:</p>
+    <div th:each="product : ${order.getProducts()}">
+        <p>Название товара: <b th:text="${product.getName()}"></b></p>
+    </div>
+</div>
+
+<a href="/admin" class="return-link">Вернуться назад</a>
+</body>
+</html>

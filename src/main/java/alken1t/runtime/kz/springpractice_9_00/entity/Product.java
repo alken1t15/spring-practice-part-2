@@ -27,8 +27,8 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Reviews> reviews;
 
-    @OneToMany(mappedBy = "product")
-    private List<OrderItems> orderItems;
+    @ManyToMany(mappedBy = "products")
+    private List<Orders> orders;
 
     @OneToMany(mappedBy = "product")
     private List<Cart> cart;

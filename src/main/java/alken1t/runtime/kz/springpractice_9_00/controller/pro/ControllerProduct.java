@@ -52,8 +52,7 @@ public class ControllerProduct {
         model.addAttribute("reviewsPeople",reviewsPeople);
         return "pro/product/product_page_id";
     }
-    //Todo 3 слова и в ней 21 буквы
-    //TODO ФРАЗА иддрйгeкпилиооой
+
     //TODO Сделать проверку что нету ли такого товара в корзине
     @PostMapping("/addCart")
     public String addCart(@RequestParam(name = "id") Long id){

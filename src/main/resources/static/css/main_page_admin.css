@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f5f5f5;
+}
+
+.user {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.user p {
+    margin: 10px 0;
+}
+
+.user a {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #333333;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.user a:hover {
+    background-color: #555555;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #dddddd;
+    margin: 20px 0;
+}

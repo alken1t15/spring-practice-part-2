@@ -35,4 +35,12 @@ public class ReviewsService {
     public List<Reviews> findAllByProduct(Product product) {
         return reviewsRepository.findAllByProduct(product);
     }
+
+    public List<Reviews> findByUserAndPublished(Users users, Boolean published){
+        return reviewsRepository.findByUserAndPublished(users,published);
+    }
+
+    public Reviews findById(Long id){
+        return reviewsRepository.findById(id).orElseThrow();
+    }
 }

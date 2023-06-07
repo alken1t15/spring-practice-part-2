@@ -8,6 +8,8 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class UserService {
@@ -24,5 +26,9 @@ public class UserService {
 
     public Users findById(Long id) {
       return usersRepository.findById(id).orElseThrow();
+    }
+
+    public List<Users> findAll() {
+      return usersRepository.findAll();
     }
 }

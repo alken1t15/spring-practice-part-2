@@ -64,10 +64,8 @@ create table orders
 
 CREATE TABLE order_items
 (
-    id         SERIAL PRIMARY KEY,
     order_id   INTEGER REFERENCES orders (id) on delete set null,
-    product_id INTEGER REFERENCES products (id) on delete set null,
-    quantity   INTEGER NOT NULL
+    product_id INTEGER REFERENCES products (id) on delete set null
 );
 
 create table reviews
