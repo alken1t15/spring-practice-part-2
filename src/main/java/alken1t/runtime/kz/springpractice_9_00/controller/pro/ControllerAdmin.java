@@ -23,23 +23,23 @@ public class ControllerAdmin {
     private final OrdersService ordersService;
 
     @GetMapping
-    public String mainPage(Model model){
+    public String mainPage(Model model) {
         List<Users> usersList = userService.findAll();
-        model.addAttribute("usersList",usersList);
+        model.addAttribute("usersList", usersList);
         return "pro/admin/main_page_admin";
     }
 
     @GetMapping("/{id}")
-    public String oneUser(@PathVariable(name = "id") long id, Model model){
+    public String oneUser(@PathVariable(name = "id") long id, Model model) {
         Users user = userService.findById(id);
-        List<Reviews> reviews = reviewsService.findByUserAndPublished(user,false);
-        model.addAttribute("user",user);
-        model.addAttribute("reviews",reviews);
+        List<Reviews> reviews = reviewsService.findByUserAndPublished(user, false);
+        model.addAttribute("user", user);
+        model.addAttribute("reviews", reviews);
         return "pro/admin/user_page_admin";
     }
 
     @PostMapping("/comment")
-    public String publishedComment(@RequestParam(name = "id") long id,@RequestParam("published") Boolean published){
+    public String publishedComment(@RequestParam(name = "id") long id, @RequestParam("published") Boolean published) {
         Reviews reviews = reviewsService.findById(id);
         reviews.setPublished(published);
         reviewsService.save(reviews);
@@ -47,9 +47,9 @@ public class ControllerAdmin {
     }
 
     @PostMapping("/order")
-    public String editStatus(@RequestParam(name = "id") long id,@RequestParam("status") String status){
+    public String editStatus(@RequestParam(name = "id") long id, @RequestParam("status") String status) {
         Orders orders = ordersService.findById(id);
-        switch (status){
+        switch (status) {
             case "READY" -> orders.setStatus(Status.READY);
             case "WAIT" -> orders.setStatus(Status.WAIT);
             case "ABSENT" -> orders.setStatus(Status.ABSENT);

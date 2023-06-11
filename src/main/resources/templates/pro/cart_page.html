@@ -13,20 +13,19 @@
       <span class="item-name" th:text="${cart.getProduct().getName()}"></span>
       <div class="item-quantity">
         <form th:action="@{/cart/add}" th:method="POST">
-          <input type="hidden" value="true" name="minus">
-          <input type="hidden" th:value="${cart.getProduct().getName()}" name="product">
+          <input type="hidden" th:value="${cart.getProduct().id}" name="id">
           <button type="submit" class="quantity-btn minus">-</button>
         </form>
         <span class="quantity" th:text="${cart.getCount()}"></span>
         <form th:action="@{/cart/add}" th:method="POST">
           <input type="hidden" value="true" name="plus">
-          <input type="hidden" th:value="${cart.getProduct().getName()}" name="product">
+          <input type="hidden" th:value="${cart.getProduct().id}" name="id">
           <button type="submit" class="quantity-btn plus">+</button>
         </form>
       </div>
       <form th:action="@{/cart/add}" th:method="POST">
         <input type="hidden" value="true" name="delete">
-        <input type="hidden" th:value="${cart.getProduct().getName()}" name="product">
+        <input type="hidden" th:value="${cart.getProduct().id}" name="id">
         <button type="submit" class="delete-btn">Удалить</button>
       </form>
     </li>

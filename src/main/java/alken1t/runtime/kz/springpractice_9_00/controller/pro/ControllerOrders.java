@@ -3,6 +3,7 @@ package alken1t.runtime.kz.springpractice_9_00.controller.pro;
 import alken1t.runtime.kz.springpractice_9_00.entity.*;
 import alken1t.runtime.kz.springpractice_9_00.service.UserService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.CartService;
+import alken1t.runtime.kz.springpractice_9_00.service.pro.OrderItemsService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.OrdersService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,35 +23,35 @@ public class ControllerOrders {
     private final UserService userService;
     private final OrdersService ordersService;
     private final CartService cartService;
+    private final OrderItemsService orderItemsService;
 
     @GetMapping
-    public String mainPage(){
+    public String mainPage() {
 
         return "pro/orders/orders_main_page";
     }
+
     @PostMapping
-    public String ordersUsers(@RequestParam("address") String address){
-        System.out.println("Попал");
-        Users currentUser = userService.getCurrentUser();
-        Users users = userService.findByLogin(currentUser.getLogin());
+    public String ordersUsers(@RequestParam("address") String address) {
+        Users users = userService.getCurrentUser();
         List<Cart> carts = users.getCarts();
-        List<Product> products = new ArrayList<>();
-        for (Cart cart: carts){
+   //     List<Product> products = new ArrayList<>();
+        Orders orders = new Orders(users,Status.WAIT,address,LocalDateTime.now());
+        ordersService.save(orders);
+        for (Cart cart : carts) {
             Product product = cart.getProduct();
-            int i = 0;
-            do {
-                products.add(product);
-                i++;
-            }while (cart.getCount() != i);
+            OrderItems orderItems = new OrderItems();
+            orderItems.setOrder(orders);
+            orderItems.setProduct(product);
+            orderItems.setCount(cart.getCount());
+            orderItemsService.save(orderItems);
+//            int i = 0;
+//            do {
+//                products.add(product);
+//                i++;
+//            } while (cart.getCount() != i);
             cartService.delete(cart);
         }
-        Orders orders = new Orders();
-        orders.setUser(users);
-        orders.setOrderDate(LocalDateTime.now());
-        orders.setDeliveryAddress(address);
-        orders.setProducts(products);
-        orders.setStatus(Status.WAIT);
-        ordersService.save(orders);
         return "redirect:/product?page=1";
     }
 }

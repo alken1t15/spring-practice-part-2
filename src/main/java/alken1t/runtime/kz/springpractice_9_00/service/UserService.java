@@ -1,5 +1,6 @@
 package alken1t.runtime.kz.springpractice_9_00.service;
 
+import alken1t.runtime.kz.springpractice_9_00.entity.Cart;
 import alken1t.runtime.kz.springpractice_9_00.entity.Users;
 import alken1t.runtime.kz.springpractice_9_00.repository.UsersRepository;
 import lombok.AllArgsConstructor;

@@ -19,54 +19,30 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping
-    public String cartPage(Model model){
-        Users currentUser = userService.getCurrentUser();
-        Users users = userService.findByLogin(currentUser.getLogin());
+    public String cartPage(Model model) {
+        Users users = userService.getCurrentUser();
         List<Cart> carts = users.getCarts();
-        int totalPrice = 0 ;
-        for (Cart cart : carts){
-            int temp = cart.getCount() * cart.getProduct().getPrice();
-            totalPrice+=temp;
-        }
-        model.addAttribute("carts",carts);
-        model.addAttribute("totalPrice",totalPrice);
+        int totalPrice = cartService.getTotalPrice(users);
+        model.addAttribute("carts", carts);
+        model.addAttribute("totalPrice", totalPrice);
         return "/pro/cart_page";
     }
 
-    @PostMapping("/add")
-    public String addProduct(@RequestParam(name = "plus",required = false) boolean plus, @RequestParam(name = "minus",required = false) boolean minus,
-                             @RequestParam(name = "delete",required = false) boolean delete,
-                             @RequestParam(name = "product") String product){
-        Users currentUser = userService.getCurrentUser();
-        Users users = userService.findByLogin(currentUser.getLogin());
-        List<Cart> carts = users.getCarts();
-        for (Cart cart : carts){
-            if(cart.getProduct().getName().equals(product)){
-                if (delete){
-                    cartService.delete(cart);
-                }
-                else if(plus){
-                    cart.setCount(cart.getCount()+1);
-                    cartService.save(cart);
-                }
-                else if(cart.getCount()!=1){
-                    cart.setCount(cart.getCount()-1);
-                    cartService.save(cart);
-                }
+    //TODO orderItems
 
-            }
-        }
+    @PostMapping("/add")
+    public String addProduct(@RequestParam(name = "plus", required = false) boolean plus,
+                             @RequestParam(name = "delete", required = false) boolean delete,
+                             @RequestParam(name = "id") Long product) {
+        Users users = userService.getCurrentUser();
+        cartService.updateCount(plus, delete, product, users);
         return "redirect:/cart";
     }
 
     @DeleteMapping("/clear")
-    public String clearCart(){
-        Users currentUser = userService.getCurrentUser();
-        Users users = userService.findByLogin(currentUser.getLogin());
-        List<Cart> carts = users.getCarts();
-        for (Cart cart : carts){
-            cartService.delete(cart);
-        }
+    public String clearCart() {
+        Users users = userService.getCurrentUser();
+        cartService.clearCart(users);
         return "redirect:/product?page=1";
     }
 }
