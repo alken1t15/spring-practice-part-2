@@ -48,13 +48,7 @@ public class ControllerAdmin {
 
     @PostMapping("/order")
     public String editStatus(@RequestParam(name = "id") long id, @RequestParam("status") String status) {
-        Orders orders = ordersService.findById(id);
-        switch (status) {
-            case "READY" -> orders.setStatus(Status.READY);
-            case "WAIT" -> orders.setStatus(Status.WAIT);
-            case "ABSENT" -> orders.setStatus(Status.ABSENT);
-        }
-        ordersService.save(orders);
+        ordersService.editStatus(id, status);
         return "redirect:/admin";
     }
 

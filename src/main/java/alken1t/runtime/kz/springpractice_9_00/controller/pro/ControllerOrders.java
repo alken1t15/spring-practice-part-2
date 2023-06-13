@@ -35,7 +35,6 @@ public class ControllerOrders {
     public String ordersUsers(@RequestParam("address") String address) {
         Users users = userService.getCurrentUser();
         List<Cart> carts = users.getCarts();
-   //     List<Product> products = new ArrayList<>();
         Orders orders = new Orders(users,Status.WAIT,address,LocalDateTime.now());
         ordersService.save(orders);
         for (Cart cart : carts) {
@@ -45,11 +44,6 @@ public class ControllerOrders {
             orderItems.setProduct(product);
             orderItems.setCount(cart.getCount());
             orderItemsService.save(orderItems);
-//            int i = 0;
-//            do {
-//                products.add(product);
-//                i++;
-//            } while (cart.getCount() != i);
             cartService.delete(cart);
         }
         return "redirect:/product?page=1";
