@@ -2,6 +2,7 @@ package alken1t.runtime.kz.springpractice_9_00.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Table(name = "cart")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +27,9 @@ public class Cart {
 
     private Integer count;
 
+    public Cart(Users users, Product product, Integer count) {
+        this.users = users;
+        this.product = product;
+        this.count = count;
+    }
 }

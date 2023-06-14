@@ -10,13 +10,22 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class CategoryService {
-    private  final CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    public Category findById(Long category){
+    public Category findById(Long category) {
         return categoryRepository.findById(category).orElseThrow();
     }
 
     public List<Category> findAll() {
         return categoryRepository.findAll();
+    }
+
+    public void createNewCategory(String categoryName) {
+        Category category = new Category(categoryName);
+        categoryRepository.save(category);
+    }
+
+    public void save(Category category) {
+        categoryRepository.save(category);
     }
 }

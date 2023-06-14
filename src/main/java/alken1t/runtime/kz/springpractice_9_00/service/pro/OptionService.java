@@ -16,4 +16,9 @@ public class OptionService {
     public List<Option> findAllByCategory(Category category){
         return optionRepository.findAllByCategory(category);
     }
+
+    public void createNewOption(Category category, String name) {
+        Option optional = new Option(category,name);
+        optionRepository.save(optional);
+    }
 }

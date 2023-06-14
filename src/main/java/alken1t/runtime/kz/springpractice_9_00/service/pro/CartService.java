@@ -1,6 +1,7 @@
 package alken1t.runtime.kz.springpractice_9_00.service.pro;
 
 import alken1t.runtime.kz.springpractice_9_00.entity.Cart;
+import alken1t.runtime.kz.springpractice_9_00.entity.Product;
 import alken1t.runtime.kz.springpractice_9_00.entity.Users;
 import alken1t.runtime.kz.springpractice_9_00.repository.CartRepository;
 import lombok.AllArgsConstructor;
@@ -57,5 +58,10 @@ public class CartService {
         for (Cart cart : carts) {
             delete(cart);
         }
+    }
+
+    public void createNewCart(Users users, Product product) {
+        Cart cart = new Cart(users, product, 1);
+        save(cart);
     }
 }

@@ -1,5 +1,6 @@
 package alken1t.runtime.kz.springpractice_9_00.service.pro;
 
+import alken1t.runtime.kz.springpractice_9_00.entity.Category;
 import alken1t.runtime.kz.springpractice_9_00.entity.Product;
 import alken1t.runtime.kz.springpractice_9_00.repository.ProductRepository;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class ProductServiceMain {
         return productRepository.findAll(pageable);
     }
 
-    public void save(Product product){
+    public void save(Product product) {
         productRepository.save(product);
     }
 
@@ -28,5 +29,11 @@ public class ProductServiceMain {
 
     public void delete(Product product) {
         productRepository.delete(product);
+    }
+
+    public Product createNewProduct(Category category, String name, Integer price) {
+        Product product = new Product(category, name, price);
+        save(product);
+        return product;
     }
 }

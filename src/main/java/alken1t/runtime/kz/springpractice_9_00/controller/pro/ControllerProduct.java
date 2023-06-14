@@ -38,50 +38,38 @@ public class ControllerProduct {
     }
 
     @GetMapping("/{id}")
-    public String pageProduct(@PathVariable("id") long id,Model model){
+    public String pageProduct(@PathVariable("id") long id, Model model) {
         Users currentUser = userService.getCurrentUser();
         Users users = userService.findByLogin(currentUser.getLogin());
         Product product = productService.findById(id).orElseThrow();
         double rating = reviewsService.getRating(product.getId());
         List<Reviews> reviews = reviewsService.findAllByProduct(product);
-        Reviews reviewsPeople = reviewsService.findByProductAndUser(product,users);
-        model.addAttribute("users",users);
-        model.addAttribute("product",product);
-        model.addAttribute("rating",rating);
-        model.addAttribute("reviews",reviews);
-        model.addAttribute("reviewsPeople",reviewsPeople);
+        Reviews reviewsPeople = reviewsService.findByProductAndUser(product, users);
+        model.addAttribute("users", users);
+        model.addAttribute("product", product);
+        model.addAttribute("rating", rating);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("reviewsPeople", reviewsPeople);
         return "pro/product/product_page_id";
     }
 
     //TODO Сделать проверку что нету ли такого товара в корзине
     @PostMapping("/addCart")
-    public String addCart(@RequestParam(name = "id") Long id){
-        Users currentUser = userService.getCurrentUser();
-        Users users = userService.findByLogin(currentUser.getLogin());
+    public String addCart(@RequestParam(name = "id") Long id) {
+        Users users = userService.getCurrentUser();
         Product product = productService.findById(id).orElseThrow();
-        Cart cart = new Cart();
-        cart.setCount(1);
-        cart.setUsers(users);
-        cart.setProduct(product);
-        cartService.save(cart);
+        cartService.createNewCart(users, product);
         return "redirect:/product?page=1";
     }
 
     @PostMapping("/comment")
     public String createComment(@RequestParam(name = "product") Long idProduct,
-                              @RequestParam(name = "user") Long idUser,
-                              @RequestParam(name = "rating")Integer rating,
-                              @RequestParam(name = "comment") String comment){
+                                @RequestParam(name = "user") Long idUser,
+                                @RequestParam(name = "rating") Integer rating,
+                                @RequestParam(name = "comment") String comment) {
         Product product = productService.findById(idProduct).orElseThrow();
         Users users = userService.findById(idUser);
-        Reviews reviews = new Reviews();
-        reviews.setProduct(product);
-        reviews.setUser(users);
-        reviews.setRating(rating);
-        reviews.setComment(comment);
-        reviews.setPublicationDate(LocalDateTime.now());
-        reviews.setPublished(false);
-        reviewsService.save(reviews);
+        reviewsService.createNewReviews(users, product, rating, comment);
         return "redirect:/product?page=1";
     }
 
@@ -92,20 +80,11 @@ public class ControllerProduct {
             , @RequestParam(name = "categoryId") Long categoryId
             , @RequestParam(name = "options") List<String> options) {
         Category category = categoryService.findById(categoryId);
-        Product product = new Product();
-        product.setName(name);
-        product.setPrice(price);
-        product.setCategory(category);
-        productService.save(product);
+        Product product = productService.createNewProduct(category, name, price);
         List<Option> options1 = optionService.findAllByCategory(category);
         for (int i = 0; i < options1.size(); i++) {
-            Value value = new Value();
-            value.setProduct(product);
-            value.setValue(options.get(i));
-            value.setOption(options1.get(i));
-            valueService.save(value);
+            valueService.createNewValue(product, options1.get(0), options.get(i));
         }
-
         return "redirect:/product?page=1";
     }
 
@@ -130,7 +109,7 @@ public class ControllerProduct {
         product1.setName(product.getName());
         product1.setPrice(product.getPrice());
         List<Value> values = product1.getValues();
-        for (int i = 0; i<values.size();i++){
+        for (int i = 0; i < values.size(); i++) {
             String valueName = valuesUpdate.get(i);
             Value value = values.get(i);
             value.setValue(valueName);

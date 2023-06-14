@@ -2,14 +2,14 @@ package alken1t.runtime.kz.springpractice_9_00.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Table(name = "order_items")
 @Getter
 @Setter
+@NoArgsConstructor
 public class OrderItems {
 
     @Id
@@ -25,4 +25,10 @@ public class OrderItems {
     private Product product;
 
     private Integer count;
+
+    public OrderItems(Orders order, Product product, Integer count) {
+        this.order = order;
+        this.product = product;
+        this.count = count;
+    }
 }

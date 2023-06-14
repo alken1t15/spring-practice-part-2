@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -35,14 +34,11 @@ public class ControllerOrders {
     public String ordersUsers(@RequestParam("address") String address) {
         Users users = userService.getCurrentUser();
         List<Cart> carts = users.getCarts();
-        Orders orders = new Orders(users,Status.WAIT,address,LocalDateTime.now());
+        Orders orders = new Orders(users, Status.WAIT, address, LocalDateTime.now());
         ordersService.save(orders);
         for (Cart cart : carts) {
             Product product = cart.getProduct();
-            OrderItems orderItems = new OrderItems();
-            orderItems.setOrder(orders);
-            orderItems.setProduct(product);
-            orderItems.setCount(cart.getCount());
+            OrderItems orderItems = new OrderItems(orders, product, cart.getCount());
             orderItemsService.save(orderItems);
             cartService.delete(cart);
         }
