@@ -81,6 +81,14 @@ create table reviews
     publication_date timestamp
 );
 
+create table shop(
+  id serial8 primary key,
+  product_id int8 REFERENCES products (id) on delete set null,
+  name varchar,
+  address varchar,
+  count int4
+);
+
 
 insert into categories (name)
 values ('Процессоры'),

@@ -23,13 +23,9 @@ public class OrdersService {
     }
 
 
-    public void editStatus( long id,String status) {
+    public void editStatus( long id,Status status) {
         Orders orders = findById(id);
-        switch (status) {
-            case "READY" -> orders.setStatus(Status.READY);
-            case "WAIT" -> orders.setStatus(Status.WAIT);
-            case "ABSENT" -> orders.setStatus(Status.ABSENT);
-        }
+        orders.setStatus(status);
         save(orders);
     }
 }

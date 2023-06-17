@@ -18,6 +18,11 @@ public class MainController {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @GetMapping("/login")
+    public String loginPage(){
+        return "/pro/login";
+    }
+
     @GetMapping("/registration")
     public String registrationPage(){
         return "/pro/registration_page";

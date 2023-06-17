@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница заказов</title>
+    <link rel="stylesheet" th:href="@{/css/user_page_admin.css}">
+</head>
+<body>
+<h1>Информация о пользователе</h1>
+<div class="user-info">
+    <p>Человек:</p>
+    <p>Имя: <b th:text="${user.getFirstName()}"></b></p>
+    <p>Фамилия: <b th:text="${user.getLastName()}"></b></p>
+    <p>Дата регистрации аккаунта: <b th:text="${user.getRegistrationDate()}"></b></p>
+</div>
+<p th:if="${!user.getOrders().isEmpty()}">Заказы пользователя:</p>
+<div th:each="order : ${user.getOrders()}" class="order">
+    <p>Статус заказа: <b th:text="${order.getStatus()}"></b></p>
+    <p>Адрес доставки: <b th:text="${order.getDeliveryAddress()}"></b></p>
+    <p>Дата создания заказа: <b th:text="${#temporals.format(order.getOrderDate(),'dd.MM.yyyy HH:mm')}"></b></p>
+    <p>Товары, входящие в заказ:</p>
+    <div th:each="item : ${order.getOrderItems()}">
+        <p>Название товара: <b th:text="${item.getProduct().getName()}"></b> Количество: <b th:text="${item.getCount()}"></b></p>
+    </div>
+</div>
+
+<a href="/product?page=1" class="return-link">Вернуться назад</a>
+</body>
+</html>

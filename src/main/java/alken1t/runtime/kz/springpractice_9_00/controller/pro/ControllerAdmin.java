@@ -1,6 +1,7 @@
 package alken1t.runtime.kz.springpractice_9_00.controller.pro;
 
 import alken1t.runtime.kz.springpractice_9_00.entity.Reviews;
+import alken1t.runtime.kz.springpractice_9_00.entity.Status;
 import alken1t.runtime.kz.springpractice_9_00.entity.Users;
 import alken1t.runtime.kz.springpractice_9_00.service.UserService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.OrdersService;
@@ -46,7 +47,7 @@ public class ControllerAdmin {
 
     @PostMapping("/order")
     public String editStatus(@RequestParam(name = "id") long id, @RequestParam("status") String status) {
-        ordersService.editStatus(id, status);
+        ordersService.editStatus(id, Status.valueOf(status));
         return "redirect:/admin";
     }
 

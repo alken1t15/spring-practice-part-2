@@ -29,26 +29,32 @@ public class ControllerProduct {
 
     @GetMapping()
     public String mainPage(@RequestParam(name = "page", required = false) Integer page, Model model) {
+        Users users = userService.getCurrentUser();
         Pageable pageable = PageRequest.of(page - 1, 3);
         Page<Product> productPage = productService.findAll(pageable);
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("totalPages", productPage.getTotalPages());
         model.addAttribute("currentPage", productPage.getNumber() + 1);
+        model.addAttribute("users", users);
         return "pro/product/product_page_main";
     }
 
     @GetMapping("/{id}")
     public String pageProduct(@PathVariable("id") long id, Model model) {
-        Users currentUser = userService.getCurrentUser();
-        Users users = userService.findByLogin(currentUser.getLogin());
+      Users users = userService.getCurrentUser();
         Product product = productService.findById(id).orElseThrow();
         double rating = reviewsService.getRating(product.getId());
         List<Reviews> reviews = reviewsService.findAllByProduct(product);
-        Reviews reviewsPeople = reviewsService.findByProductAndUser(product, users);
-        model.addAttribute("users", users);
         model.addAttribute("product", product);
         model.addAttribute("rating", rating);
         model.addAttribute("reviews", reviews);
+        model.addAttribute("users", users);
+        if (users == null){
+            Reviews reviewsPeople = null;
+            model.addAttribute("reviewsPeople", reviewsPeople);
+        }
+        Reviews reviewsPeople = reviewsService.findByProductAndUser(product, users);
+        model.addAttribute("users", users);
         model.addAttribute("reviewsPeople", reviewsPeople);
         return "pro/product/product_page_id";
     }
@@ -70,7 +76,7 @@ public class ControllerProduct {
         Product product = productService.findById(idProduct).orElseThrow();
         Users users = userService.findById(idUser);
         reviewsService.createNewReviews(users, product, rating, comment);
-        return "redirect:/product?page=1";
+        return "redirect:/product/"+idProduct;
     }
 
 

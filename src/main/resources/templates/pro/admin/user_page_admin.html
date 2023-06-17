@@ -44,8 +44,8 @@
     <p>Адрес доставки: <b th:text="${order.getDeliveryAddress()}"></b></p>
     <p>Дата создания заказа: <b th:text="${#temporals.format(order.getOrderDate(),'dd.MM.yyyy HH:mm')}"></b></p>
     <p>Товары, входящие в заказ:</p>
-    <div th:each="product : ${order.getProducts()}">
-        <p>Название товара: <b th:text="${product.getName()}"></b></p>
+    <div th:each="item : ${order.getOrderItems()}">
+        <p>Название товара: <b th:text="${item.getProduct().getName()}"></b> Количество: <b th:text="${item.getCount()}"></b></p>
     </div>
 </div>
 
