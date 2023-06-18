@@ -30,4 +30,5 @@ public class ProductService {
             return categories.stream().filter(categories -> categories.getCategory().equals(categoryName)).collect(Collectors.toList());
         }
     }
+
 }

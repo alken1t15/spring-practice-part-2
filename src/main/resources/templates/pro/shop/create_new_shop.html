@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание магазина</title>
+  <link rel="stylesheet" th:href="@{/css/create_new_shop.css}">
+</head>
+<body>
+<h2>Создание магазина</h2>
+<form th:method="POST" th:action="@{/shop}">
+  <p>Выберите товар:</p>
+  <select name="id">
+    <option th:each="product : ${products}" th:value="${product.getId()}" th:text="${product.getName()}"></option>
+  </select>
+  <p>Введите название магазина:</p>
+  <input name="name" type="text">
+  <p>Введите адрес магазина:</p>
+  <input name="address" type="text">
+  <button type="submit">Создать</button>
+</form>
+</body>
+</html>

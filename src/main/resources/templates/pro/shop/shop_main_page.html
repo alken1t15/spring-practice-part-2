@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Магазин</title>
+    <link rel="stylesheet" th:href="@{/css/shop_main_page.css}">
+</head>
+<body>
+<h1>Товары</h1>
+<div th:each="product : ${products}" class="product-container">
+    <p class="product-category">Категория: <b th:text="${product.getCategory().getName()}"></b></p>
+    <p class="product-name">Название: <b th:text="${product.getName()}"></b></p>
+    <p class="product-price">Стоимость: <b th:text="${product.getPrice()}"></b></p>
+    <a th:href="@{/shop/{id}(id=${product.getId()})}" class="product-link">Перейти к товару</a>
+</div>
+<a th:href="@{/shop/new}" class="new-shop-link">Добавить новый магазин</a>
+</body>
+</html>

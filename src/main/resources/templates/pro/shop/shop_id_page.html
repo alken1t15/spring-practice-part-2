@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница товаров в магазине</title>
+    <link rel="stylesheet" th:href="@{/css/shop_id_page.css}">
+</head>
+<body>
+<div class="product-details">
+    <p>Категория: <b th:text="${product.getCategory().getName()}" class="category-name"></b></p>
+    <p>Название: <b th:text="${product.getName()}" class="product-name"></b></p>
+    <p>Стоимость: <b th:text="${product.getPrice()}" class="product-price"></b></p>
+    <div th:each="value : ${product.getValues()}" class="product-values">
+        <p><span th:text="${value.option.name}"></span>: <b th:text="${value.getValue()}"></b></p>
+    </div>
+</div>
+
+<p th:if="${product.getShops().isEmpty()}">Сейчас нет ни одного магазина</p>
+
+<div th:if="${!product.getShops().isEmpty()}" class="shops-container">
+    <div th:each="shop : ${product.getShops()}" class="shop-details">
+        <p>Название магазина: <b th:text="${shop.getName()}" class="shop-name"></b></p>
+        <p>Адрес магазина: <b th:text="${shop.getAddress()}" class="shop-address"></b></p>
+        <p>Количество товара в магазине: <b th:text="${shop.getCount()}" class="shop-count"></b></p>
+    </div>
+
+    <form th:method="POST" th:action="@{/shop/count}" class="update-form">
+        <p>Выберите магазин, в который хотите обновить количество товаров:</p>
+        <input type="hidden" name="product_id" th:value="${product.getId()}">
+        <select name="id">
+            <option th:each="shop : ${product.getShops()}" th:value="${shop.getId()}" th:text="${shop.getName()}"></option>
+        </select>
+        <p>Введите количество товара:</p>
+        <input name="count" type="text">
+        <button type="submit">Изменить</button>
+    </form>
+</div>
+</body>
+</html>

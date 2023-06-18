@@ -1,0 +1,31 @@
+.product-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.product-category {
+    font-weight: bold;
+}
+
+.product-name {
+    color: #333;
+}
+
+.product-price {
+    color: green;
+    font-weight: bold;
+}
+
+.product-link {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.new-shop-link {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    color: blue;
+}

@@ -21,6 +21,9 @@ public class SecurityConfig {
             authorization.requestMatchers("/orders").authenticated();
             authorization.requestMatchers("/user").authenticated();
             authorization.requestMatchers("/product/addCart").authenticated();
+            authorization.requestMatchers("/shop").hasRole("moderator");
+            authorization.requestMatchers("/shop/{id}").hasRole("moderator");
+            authorization.requestMatchers("/shop/count").hasRole("moderator");
             authorization.requestMatchers("/admin/{id}").hasRole("admin");
             authorization.requestMatchers("/admin/comment").hasRole("admin");
             authorization.requestMatchers("/admin").hasRole("admin");
