@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Страница товара</title>
     <link rel="stylesheet" th:href="@{/css/product_page_id.css}">
+    <link rel="stylesheet" th:href="@{/css/shop_id_page.css}">
 </head>
 <body>
 <div th:if="${rating}!=0.0" class="product-info">
@@ -21,9 +22,19 @@
     </div>
 </div>
 
+<div th:each="shop : ${product.getShops()}" class="shop-details">
+    <p>Название магазина: <b th:text="${shop.getName()}" class="shop-name"></b></p>
+    <p>Адрес магазина: <b th:text="${shop.getAddress()}" class="shop-address"></b></p>
+    <p>Количество товара в магазине: <b th:text="${shop.getCount()}" class="shop-count"></b></p>
+</div>
+
 <div class="product-info">
     <form th:method="POST" th:action="@{/product/addCart}">
         <input type="hidden" th:value="${product.getId()}" name="id">
+        <p>Выберите магазин, в котором вы хотите купить:</p>
+        <select name="id_shop">
+            <option th:each="shop : ${product.getShops()}" th:value="${shop.getId()}" th:text="${shop.getName()}"></option>
+        </select>
         <button type="submit">Добавить в корзину</button>
     </form>
     <a th:href="@{/product/edit_product/{id}(id=${product.getId()})}">Изменить товар</a>

@@ -27,9 +27,14 @@ public class Cart {
 
     private Integer count;
 
-    public Cart(Users users, Product product, Integer count) {
+    @ManyToOne
+    @JoinColumn(name = "id_shop")
+    private Shop shop;
+
+    public Cart(Users users, Product product, Integer count,Shop shop) {
         this.users = users;
         this.product = product;
         this.count = count;
+        this.shop = shop;
     }
 }

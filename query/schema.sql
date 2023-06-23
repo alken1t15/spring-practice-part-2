@@ -30,7 +30,8 @@ create  table cart(
                       id serial4 primary key ,
                       id_users int4 references users(id),
                       id_product int4 references products(id),
-                      count int
+                      count int,
+                      id_shop int4 references shop(id)
 );
 
 create table options

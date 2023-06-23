@@ -26,6 +26,7 @@ public class ControllerProduct {
     private final ReviewsService reviewsService;
     private final UserService userService;
     private final CartService cartService;
+    private final ShopService shopService;
 
     @GetMapping()
     public String mainPage(@RequestParam(name = "page", required = false) Integer page, Model model) {
@@ -61,10 +62,11 @@ public class ControllerProduct {
 
     //TODO Сделать проверку что нету ли такого товара в корзине
     @PostMapping("/addCart")
-    public String addCart(@RequestParam(name = "id") Long id) {
+    public String addCart(@RequestParam(name = "id") Long id,@RequestParam(name = "id_shop") Long idShop) {
         Users users = userService.getCurrentUser();
         Product product = productService.findById(id).orElseThrow();
-        cartService.createNewCart(users, product);
+        Shop shop = shopService.findById(idShop);
+        cartService.createNewCart(users, product,shop);
         return "redirect:/product?page=1";
     }
 

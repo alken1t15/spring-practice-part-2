@@ -21,4 +21,6 @@ public class Shop {
     private String name;
     private String address;
     private Integer count;
+    @OneToMany(mappedBy = "shop")
+    private List<Cart> carts;
 }

@@ -5,6 +5,7 @@ import alken1t.runtime.kz.springpractice_9_00.service.UserService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.CartService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.OrderItemsService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.OrdersService;
+import alken1t.runtime.kz.springpractice_9_00.service.pro.ShopService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ public class ControllerOrders {
     private final OrdersService ordersService;
     private final CartService cartService;
     private final OrderItemsService orderItemsService;
+    private final ShopService shopService;
 
     @GetMapping
     public String mainPage() {
@@ -38,6 +40,8 @@ public class ControllerOrders {
         ordersService.save(orders);
         for (Cart cart : carts) {
             Product product = cart.getProduct();
+            Shop shop = cart.getShop();
+            shop.setCount(shop.getCount()-cart.getCount());
             OrderItems orderItems = new OrderItems(orders, product, cart.getCount());
             orderItemsService.save(orderItems);
             cartService.delete(cart);
