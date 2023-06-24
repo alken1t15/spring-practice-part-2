@@ -32,6 +32,7 @@
         </select>
         <p>Введите количество товара:</p>
         <input name="count" type="text">
+        <p style="color: red" th:if="${err}!=null" th:text="${err}"></p>
         <button type="submit">Изменить</button>
     </form>
 </div>
