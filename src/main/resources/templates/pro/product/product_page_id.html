@@ -50,7 +50,14 @@
             <input type="hidden" name="product" th:value="${product.id}">
             <input type="hidden" name="user" th:value="${users.id}">
             <label for="rating">Оставить рейтинг</label>
-            <input id="rating" type="text" name="rating">
+            <select id="rating" name="rating">
+                <option value="1">*</option>
+                <option value="2">**</option>
+                <option value="3">***</option>
+                <option value="4">****</option>
+                <option value="5">*****</option>
+            </select>
+<!--            <input id="rating" type="text" name="rating">-->
             <label for="review">Оставить отзыв</label>
             <textarea name="comment" id="review"></textarea>
             <button type="submit">Отправить</button>

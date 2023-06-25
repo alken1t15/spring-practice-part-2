@@ -18,6 +18,7 @@
   <p>Введите адрес магазина:</p>
   <input th:field="*{address}" type="text">
   <p style="color: red" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></p>
+  <p style="color: red" th:if="${err} != null" th:text="${err}"></p>
   <button type="submit">Создать</button>
 </form>
 </body>

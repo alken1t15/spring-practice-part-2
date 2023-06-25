@@ -1,7 +1,9 @@
 package alken1t.runtime.kz.springpractice_9_00.service.pro;
 
+import alken1t.runtime.kz.springpractice_9_00.entity.Product;
 import alken1t.runtime.kz.springpractice_9_00.entity.Shop;
 import alken1t.runtime.kz.springpractice_9_00.repository.ShopRepository;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +25,9 @@ public class ShopService {
 
     public void save(Shop shop) {
         shopRepository.save(shop);
+    }
+
+    public Shop findByProductAndName(Product product, @NotEmpty(message = "Поле должно быть заполненным") String name) {
+        return shopRepository.findByProductAndName(product, name);
     }
 }

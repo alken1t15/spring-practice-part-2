@@ -1,6 +1,7 @@
 package alken1t.runtime.kz.springpractice_9_00.controller.pro;
 
-import alken1t.runtime.kz.springpractice_9_00.ShopCountUpdate;
+import alken1t.runtime.kz.springpractice_9_00.exception.CreateNewShop;
+import alken1t.runtime.kz.springpractice_9_00.exception.ShopCountUpdate;
 import alken1t.runtime.kz.springpractice_9_00.entity.Product;
 import alken1t.runtime.kz.springpractice_9_00.entity.Shop;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.ProductServiceMain;
@@ -41,17 +42,22 @@ public class ControllerShop {
         List<Product> products = productService.findAll();
         model.addAttribute("products",products);
         model.addAttribute("shop",new Shop());
+        model.addAttribute("err",null);
         return "pro/shop/create_new_shop";
     }
 
     @PostMapping()
-    public String createNewShop(@RequestParam Long id, Model model, @ModelAttribute(name = "shop") @Valid Shop shop ,BindingResult bindingResult){
+    public String createNewShop(@RequestParam Long id, Model model, @ModelAttribute(name = "shop") @Valid Shop shop ,BindingResult bindingResult) throws CreateNewShop {
         if (bindingResult.hasErrors()){
             List<Product> products = productService.findAll();
             model.addAttribute("products",products);
             return "pro/shop/create_new_shop";
         }
         Product product = productService.findById(id).orElseThrow();
+        Shop shopCheck = shopService.findByProductAndName(product,shop.getName());
+        if (shopCheck != null){
+            throw new CreateNewShop("Такой магазин уже есть");
+        }
         shop.setProduct(product);
         shop.setCount(1);
         shopService.save(shop);
@@ -75,5 +81,14 @@ public class ControllerShop {
         model.addAttribute("product",product);
         model.addAttribute("err",e.getMessage());
         return "pro/shop/shop_id_page";
+    }
+
+    @ExceptionHandler(CreateNewShop.class)
+    public String createNewShop(CreateNewShop e,Model model){
+        List<Product> products = productService.findAll();
+        model.addAttribute("products",products);
+        model.addAttribute("shop",new Shop());
+        model.addAttribute("err",e.getMessage());
+        return "pro/shop/create_new_shop";
     }
 }

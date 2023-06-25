@@ -1,6 +1,7 @@
 package alken1t.runtime.kz.springpractice_9_00.controller.pro;
 
 import alken1t.runtime.kz.springpractice_9_00.entity.*;
+import alken1t.runtime.kz.springpractice_9_00.exception.CreateNewComment;
 import alken1t.runtime.kz.springpractice_9_00.pojo.Product2;
 import alken1t.runtime.kz.springpractice_9_00.service.UserService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.*;
@@ -75,6 +76,9 @@ public class ControllerProduct {
                                 @RequestParam(name = "user") Long idUser,
                                 @RequestParam(name = "rating") Integer rating,
                                 @RequestParam(name = "comment") String comment) {
+        if (comment!=null || comment.isEmpty()){
+            throw new CreateNewComment("Нельзя опубликовать пустой комментарий",idProduct);
+        }
         Product product = productService.findById(idProduct).orElseThrow();
         Users users = userService.findById(idUser);
         reviewsService.createNewReviews(users, product, rating, comment);
@@ -132,5 +136,10 @@ public class ControllerProduct {
         Product product = productService.findById(id).orElseThrow();
         productService.delete(product);
         return "redirect:/product?page=1";
+    }
+
+    @ExceptionHandler(CreateNewComment.class)
+    private void errorCreateNewComment(CreateNewComment e){
+        pageProduct()
     }
 }

@@ -1,4 +1,4 @@
-package alken1t.runtime.kz.springpractice_9_00;
+package alken1t.runtime.kz.springpractice_9_00.exception;
 
 import lombok.Getter;
 import lombok.Setter;
