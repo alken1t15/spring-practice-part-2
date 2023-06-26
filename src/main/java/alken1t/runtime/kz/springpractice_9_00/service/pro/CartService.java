@@ -65,4 +65,8 @@ public class CartService {
         Cart cart = new Cart(users, product, 1,shop);
         save(cart);
     }
+
+    public Cart findByUsersAndProductAndShop(Users users, Product product, Shop shop){
+        return cartRepository.findByUsersAndProductAndShop(users, product, shop);
+    }
 }

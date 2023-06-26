@@ -1,6 +1,7 @@
 package alken1t.runtime.kz.springpractice_9_00.controller.pro;
 
 import alken1t.runtime.kz.springpractice_9_00.entity.*;
+import alken1t.runtime.kz.springpractice_9_00.exception.AddNewProductCart;
 import alken1t.runtime.kz.springpractice_9_00.exception.CreateNewComment;
 import alken1t.runtime.kz.springpractice_9_00.pojo.Product2;
 import alken1t.runtime.kz.springpractice_9_00.service.UserService;
@@ -58,15 +59,20 @@ public class ControllerProduct {
         Reviews reviewsPeople = reviewsService.findByProductAndUser(product, users);
         model.addAttribute("users", users);
         model.addAttribute("reviewsPeople", reviewsPeople);
+        model.addAttribute("err",null);
+        model.addAttribute("err2",null);
         return "pro/product/product_page_id";
     }
 
-    //TODO Сделать проверку что нету ли такого товара в корзине
     @PostMapping("/addCart")
     public String addCart(@RequestParam(name = "id") Long id,@RequestParam(name = "id_shop") Long idShop) {
         Users users = userService.getCurrentUser();
         Product product = productService.findById(id).orElseThrow();
         Shop shop = shopService.findById(idShop);
+        Cart cart = cartService.findByUsersAndProductAndShop(users,product,shop);
+        if (cart != null){
+            throw new AddNewProductCart("Этот товар уже есть в корзине",id);
+        }
         cartService.createNewCart(users, product,shop);
         return "redirect:/product?page=1";
     }
@@ -139,7 +145,44 @@ public class ControllerProduct {
     }
 
     @ExceptionHandler(CreateNewComment.class)
-    private void errorCreateNewComment(CreateNewComment e){
-        pageProduct()
+    private String errorCreateNewComment(CreateNewComment e , Model model){
+        Users users = userService.getCurrentUser();
+        Product product = productService.findById(e.getId()).orElseThrow();
+        double rating = reviewsService.getRating(product.getId());
+        List<Reviews> reviews = reviewsService.findAllByProduct(product);
+        model.addAttribute("product", product);
+        model.addAttribute("rating", rating);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("users", users);
+        if (users == null){
+            Reviews reviewsPeople = null;
+            model.addAttribute("reviewsPeople", reviewsPeople);
+        }
+        Reviews reviewsPeople = reviewsService.findByProductAndUser(product, users);
+        model.addAttribute("users", users);
+        model.addAttribute("reviewsPeople", reviewsPeople);
+        model.addAttribute("err",e.getMessage());
+        return "pro/product/product_page_id";
+    }
+
+    @ExceptionHandler(AddNewProductCart.class)
+    private String errorAddNewProductCart(AddNewProductCart e , Model model){
+        Users users = userService.getCurrentUser();
+        Product product = productService.findById(e.getId()).orElseThrow();
+        double rating = reviewsService.getRating(product.getId());
+        List<Reviews> reviews = reviewsService.findAllByProduct(product);
+        model.addAttribute("product", product);
+        model.addAttribute("rating", rating);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("users", users);
+        if (users == null){
+            Reviews reviewsPeople = null;
+            model.addAttribute("reviewsPeople", reviewsPeople);
+        }
+        Reviews reviewsPeople = reviewsService.findByProductAndUser(product, users);
+        model.addAttribute("users", users);
+        model.addAttribute("reviewsPeople", reviewsPeople);
+        model.addAttribute("err2",e.getMessage());
+        return "pro/product/product_page_id";
     }
 }

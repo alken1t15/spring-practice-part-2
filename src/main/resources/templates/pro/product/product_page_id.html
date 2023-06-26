@@ -35,6 +35,7 @@
         <select name="id_shop">
             <option th:each="shop : ${product.getShops()}" th:value="${shop.getId()}" th:text="${shop.getName()}"></option>
         </select>
+        <p style="color: red" th:if="${err2} != null" th:text="${err2}"></p>
         <button type="submit">Добавить в корзину</button>
     </form>
     <a th:href="@{/product/edit_product/{id}(id=${product.getId()})}">Изменить товар</a>
@@ -60,6 +61,7 @@
 <!--            <input id="rating" type="text" name="rating">-->
             <label for="review">Оставить отзыв</label>
             <textarea name="comment" id="review"></textarea>
+            <p style="color: red" th:if="${err} != null" th:text="${err}"></p>
             <button type="submit">Отправить</button>
         </form>
         <p th:if="${reviews.isEmpty()}">Пока нет отзывов на этот товар</p>
