@@ -82,7 +82,8 @@ public class ControllerProduct {
                                 @RequestParam(name = "user") Long idUser,
                                 @RequestParam(name = "rating") Integer rating,
                                 @RequestParam(name = "comment") String comment) {
-        if (comment!=null || comment.isEmpty()){
+        System.out.println(comment);
+        if (comment==null || comment.isEmpty()){
             throw new CreateNewComment("Нельзя опубликовать пустой комментарий",idProduct);
         }
         Product product = productService.findById(idProduct).orElseThrow();

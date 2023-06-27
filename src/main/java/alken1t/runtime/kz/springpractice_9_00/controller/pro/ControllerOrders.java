@@ -1,17 +1,15 @@
 package alken1t.runtime.kz.springpractice_9_00.controller.pro;
 
 import alken1t.runtime.kz.springpractice_9_00.entity.*;
+import alken1t.runtime.kz.springpractice_9_00.exception.AddNewAddress;
 import alken1t.runtime.kz.springpractice_9_00.service.UserService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.CartService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.OrderItemsService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.OrdersService;
-import alken1t.runtime.kz.springpractice_9_00.service.pro.ShopService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,16 +22,18 @@ public class ControllerOrders {
     private final OrdersService ordersService;
     private final CartService cartService;
     private final OrderItemsService orderItemsService;
-    private final ShopService shopService;
 
     @GetMapping
-    public String mainPage() {
-
+    public String mainPage(Model model) {
+        model.addAttribute("address",null);
         return "pro/orders/orders_main_page";
     }
 
     @PostMapping
     public String ordersUsers(@RequestParam("address") String address) {
+        if(address.isEmpty()){
+            throw new AddNewAddress("Поле должно быть заполненным");
+        }
         Users users = userService.getCurrentUser();
         List<Cart> carts = users.getCarts();
         Orders orders = new Orders(users, Status.WAIT, address, LocalDateTime.now());
@@ -47,5 +47,11 @@ public class ControllerOrders {
             cartService.delete(cart);
         }
         return "redirect:/product?page=1";
+    }
+
+    @ExceptionHandler(AddNewAddress.class)
+    public String errorAddNewAddress(AddNewAddress e, Model model){
+        model.addAttribute("address",e.getMessage());
+        return "pro/orders/orders_main_page";
     }
 }

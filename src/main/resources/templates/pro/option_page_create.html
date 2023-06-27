@@ -6,8 +6,9 @@
 </head>
 <body>
 <form th:method="POST" th:action="@{/controller_pro/option_new}">
+    <p>Выберите категорию</p>
+    <p style="color: red" th:if="${err}!=null" th:text="${err}"></p>
     <select name="category">
-        <option value="">Выберите категорию</option>
         <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getName()}"></option>
     </select>
     <label>

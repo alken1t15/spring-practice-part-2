@@ -6,6 +6,7 @@
 </head>
 <body>
 <form th:method="POST" th:action="@{/controller_pro/category_new}">
+    <p style="color: red" th:if="${err}!= null" th:text="${err}"></p>
     <label>
         <input type="text" name="category" placeholder="Введите название категории">
     </label>

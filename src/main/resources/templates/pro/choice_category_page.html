@@ -6,8 +6,8 @@
 </head>
 <body>
 <form th:method="GET" th:action="@{/controller_pro/product_new}">
+    <p>Выберите категорию</p>
     <select name="category">
-        <option value="">Выберите категорию</option>
         <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getName()}"></option>
     </select>
     <button type="submit" >Перейти на следующий шаг</button>

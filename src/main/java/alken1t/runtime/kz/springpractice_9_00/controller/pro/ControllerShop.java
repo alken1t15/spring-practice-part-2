@@ -65,9 +65,12 @@ public class ControllerShop {
     }
 
     @PostMapping("/count")
-    private String updateCount(@RequestParam Long id, @RequestParam Integer count,@RequestParam(name = "product_id")Long idProduct){
-        if (count < 0){
-            throw new ShopCountUpdate("Количество товара не может быть ниже 0", id);
+    private String updateCount(@RequestParam Long id, @RequestParam(required = false) Integer count,@RequestParam(name = "product_id")Long idProduct){
+        if(count == null){
+            throw new ShopCountUpdate("Поле не может быть пустым", idProduct);
+        }
+       else if (count < 0){
+            throw new ShopCountUpdate("Количество товара не может быть ниже 0",idProduct);
         }
         Shop shop = shopService.findById(id);
         shop.setCount(count);
