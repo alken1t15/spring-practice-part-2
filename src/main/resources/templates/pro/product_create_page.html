@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание продукта</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/controller_pro/create_product}" th:object="${product}">
+    <input  type="hidden" th:field="*{category}">
+    <label for="name">Введите название товара</label>
+    <input id="name" type="text" th:field="*{name}">
+    <p style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+    <label for="price">Введите цену товара</label>
+    <input id="price" type="number" th:field="*{price}">
+    <p style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+    <div th:each="option : ${options}">
+        <p>Введите значение для <b th:text="${option.getName()}"></b></p>
+        <label>
+            <input type="text" name="value"/>
+        </label>
+    </div>
+    <button type="submit">Создать</button>
+</form>
+</body>
+</html>

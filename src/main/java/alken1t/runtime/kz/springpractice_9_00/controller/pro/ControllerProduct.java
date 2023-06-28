@@ -6,12 +6,14 @@ import alken1t.runtime.kz.springpractice_9_00.exception.CreateNewComment;
 import alken1t.runtime.kz.springpractice_9_00.pojo.Product2;
 import alken1t.runtime.kz.springpractice_9_00.service.UserService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -116,14 +118,22 @@ public class ControllerProduct {
         Product2 product2 = new Product2(product.getId(), product.getCategory().getId(), product.getName(), product.getPrice(), values);
         model.addAttribute("product", product2);
         model.addAttribute("categories", categories);
-        model.addAttribute("values", values);
         return "pro/product/product_page_edit";
     }
 
     @PatchMapping("/edit_product/{id}")
     private String editProduct(@PathVariable("id") Long id,
-                               @RequestParam(name = "options") List<String> valuesUpdate,
-                               @ModelAttribute("product") Product2 product) {
+                               @RequestParam(name = "options") List<String> valuesUpdate,Model model,
+                               @ModelAttribute("product") @Valid Product2 product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            Product product2 = productService.findById(id).orElseThrow();
+            List<Category> categories = categoryService.findAll();
+            List<Value> values = valueService.findAllByProduct(product2);
+            product.setValues(values);
+            model.addAttribute("product", product);
+            model.addAttribute("categories", categories);
+            return "pro/product/product_page_edit";
+        }
         Product product1 = productService.findById(id).orElseThrow();
         product1.setName(product.getName());
         product1.setPrice(product.getPrice());

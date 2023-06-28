@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Выберите категорию</p>
+<form th:method="GET" th:action="@{/category/find}">
+    <select name="category">
+        <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getName()}" ></option>
+    </select>
+    <button type="submit">Дальше</button>
+</form>
+</body>
+</html>

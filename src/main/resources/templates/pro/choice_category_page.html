@@ -5,7 +5,7 @@
     <title>Products page</title>
 </head>
 <body>
-<form th:method="GET" th:action="@{/controller_pro/product_new}">
+<form th:method="GET" th:action="@{/controller_pro/create_product}">
     <p>Выберите категорию</p>
     <select name="category">
         <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getName()}"></option>
