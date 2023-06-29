@@ -3,18 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+  <link rel="stylesheet" th:href="@{/css/main_page_category.css}">
 </head>
 <body>
-<form th:method="GET" th:action="@{/category/find}">
-  <p>Подбор параметров</p>
-  <input type="hidden" name="category" th:value="${id}">
-  <div th:each="option : ${options}">
-    <p style="color: #0084ff" th:text="${option.name}"></p>
-    <div th:each="value : ${option.getValues()}">
-      <input name="sort" type="checkbox" th:value="${value.getId()}" th:text="${value.value}">
+<section>
+  <div class="parameter-form">
+    <form th:method="GET" th:action="@{/category/find}">
+      <p>Подбор параметров</p>
+      <input type="hidden" name="category" th:value="${id}">
+      <div th:each="option : ${options}">
+        <p style="color: #0084ff" th:text="${option.name}"></p>
+        <div th:each="value : ${option.uniqResult()}">
+          <input name="sort" type="checkbox" th:value="${value.getId()}" th:text="${value.value}">
+        </div>
+      </div>
+      <button type="submit">Поиск</button>
+    </form>
+  </div>
+  <div class="product-list">
+    <div th:each="product : ${results}" class="product">
+      <p>Категория: <b th:text="${product.getCategory().getName()}"></b></p>
+      <p>Название: <b th:text="${product.getName()}"></b></p>
+      <p>Стоимость: <b th:text="${product.getPrice()}"></b></p>
+      <a th:href="@{/product/{id}(id=${product.getId()})}">Перейти к товару</a>
     </div>
   </div>
-  <button type="submit">Поиск</button>
-</form>
+</section>
 </body>
 </html>

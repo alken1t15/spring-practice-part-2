@@ -26,4 +26,8 @@ public class ValueService {
         Value value = new Value(product, option, s);
         save(value);
     }
+
+    public Value findById(Long id) {
+        return valueRepository.findById(id).orElseThrow();
+    }
 }

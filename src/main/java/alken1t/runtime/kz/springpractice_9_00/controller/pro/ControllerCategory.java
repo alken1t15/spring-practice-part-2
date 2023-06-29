@@ -6,6 +6,7 @@ import alken1t.runtime.kz.springpractice_9_00.entity.Product;
 import alken1t.runtime.kz.springpractice_9_00.entity.Value;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.CategoryService;
 import alken1t.runtime.kz.springpractice_9_00.service.pro.OptionService;
+import alken1t.runtime.kz.springpractice_9_00.service.pro.ValueService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
@@ -27,6 +28,7 @@ public class ControllerCategory {
     private final CategoryService categoryService;
     private final OptionService optionService;
     private final EntityManager entityManager;
+    private final ValueService valueService;
 
     @GetMapping
     public String selectCategory(Model model){
@@ -44,30 +46,30 @@ public class ControllerCategory {
             Root<Product> root = criteriaQuery.from(Product.class);
             Join<Product, Value> valueJoin = root.join("values");
 
-       //     Predicate predicate1 = builder.equal(valueJoin.get("id"),1);
-
-            List<Predicate> predicates =  new ArrayList<>();
+            List<String> arrValue =  new ArrayList<>();
 
             for(String str : sorts){
-                Predicate predicate1 = builder.equal(valueJoin.get("id"),str);
-                predicates.add(predicate1);
+                Value value = valueService.findById(Long.valueOf(str));
+                arrValue.add(value.getValue());
             }
 
-//            criteriaQuery.select(root).where(predicate1);
+            Predicate valuePredicate = valueJoin.get("value").in(arrValue);
 
-            criteriaQuery.select(root).where(builder.and(predicates.toArray(new Predicate[0])));
+            Predicate finalPredicate = builder.or(valuePredicate);
+
+            criteriaQuery.where(finalPredicate);
 
             TypedQuery<Product> query = entityManager.createQuery(criteriaQuery);
             List<Product> results = query.getResultList();
-            System.out.println(results.get(0).getName());
+            model.addAttribute("results",results);
 
         }
-
 
         Category category = categoryService.findById(id);
         List<Option> options = optionService.findAllByCategory(category);
         model.addAttribute("options",options);
         model.addAttribute("id",id);
+        model.addAttribute("products",null);
         return "pro/category/main_page";
     }
 }

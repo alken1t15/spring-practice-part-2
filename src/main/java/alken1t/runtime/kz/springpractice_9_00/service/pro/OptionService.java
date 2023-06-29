@@ -21,4 +21,8 @@ public class OptionService {
         Option optional = new Option(category,name);
         optionRepository.save(optional);
     }
+
+    public Option findById(Long id){
+        return optionRepository.findById(id).orElseThrow();
+    }
 }

@@ -126,4 +126,4 @@ values (1, 1, 'Intel'),
        (7, 3, '2560*1440'),
        (7, 4, '1920*1080');
 
-select products FROM  products join values v on products.id = v.product_id where value = 'Intel' and option_id = 1;
+select products FROM  products join values v on products.id = v.product_id where value in ('Intel','AMD') or option_id in (1,2,4);

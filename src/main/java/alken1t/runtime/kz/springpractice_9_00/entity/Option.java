@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "options")
@@ -30,4 +32,12 @@ public class Option {
         this.category = category;
         this.name = name;
     }
+
+    public List<Value> uniqResult(){
+        List<Value> uniqueOptions = values.stream()
+                .distinct()
+                .toList();
+        return uniqueOptions;
+    }
+
 }
