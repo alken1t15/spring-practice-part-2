@@ -44,18 +44,19 @@ public class ControllerCategory {
             CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
 
             Root<Product> root = criteriaQuery.from(Product.class);
-            Join<Product, Value> valueJoin = root.join("values");
 
-            List<String> arrValue =  new ArrayList<>();
+
+            List<Predicate> predicates = new ArrayList<>();
 
             for(String str : sorts){
+                Join<Product, Value> valueJoin = root.join("values");
                 Value value = valueService.findById(Long.valueOf(str));
-                arrValue.add(value.getValue());
+                Predicate valuePredicate1 = builder.equal(valueJoin.get("value"), value.getValue());
+                Predicate categoryIdPredicate = builder.equal(valueJoin.get("option").get("id"), value.getOption().getId());
+                Predicate finalPredicate = builder.and(valuePredicate1, categoryIdPredicate);
+                predicates.add(finalPredicate);
             }
-
-            Predicate valuePredicate = valueJoin.get("value").in(arrValue);
-
-            Predicate finalPredicate = builder.or(valuePredicate);
+            Predicate finalPredicate = builder.and(predicates.toArray(new Predicate[predicates.size()]));
 
             criteriaQuery.where(finalPredicate);
 
